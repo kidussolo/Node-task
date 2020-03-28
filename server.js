@@ -1,27 +1,41 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
+const Sequelize = require("sequelize");
 const app = express();
 
 //body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.json({
-    message: "hello world"
-  });
+const users = require("./api/users");
+
+//db connection
+const sequelize = new Sequelize("test", "root", "root", {
+  host: "localhost",
+  dialect: "mysql",
+  operatorsAliases: false,
+
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  }
 });
 
-//connection string
+//test db connection
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch(err => {
+    console.error("Unable to connect to the database:", err);
+  });
 
-//routes for
-// const users = require("./router/api/user");
+// api route
+app.use("/api", users);
 
-//Connect to Database
-
-// app.use("/api/users", users);
-
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 
 app.listen(port, () => console.log(`server running on port ${port}`));
