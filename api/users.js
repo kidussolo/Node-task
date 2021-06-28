@@ -1,27 +1,16 @@
 const express = require("express");
-const Sequelize = require("sequelize");
 const router = express.Router();
 
-const UserModel = require("../models/user");
+const  db = require("../models");
 
-const sequelize = new Sequelize("test", "root", "root", {
-  host: "localhost",
-  dialect: "mysql",
-  pool: {
-    max: 10,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-});
 
-const User = UserModel(sequelize, Sequelize);
+// const User = UserModel(sequelize, Sequelize);
 
 // @route GET api/users
 // @desc  Get all users
 // @access public
 router.get("/users", (req, res) => {
-  User.findAll()
+  db.user.findAll()
     .then(users => {
       res.json(users);
     })
@@ -33,7 +22,7 @@ router.get("/users", (req, res) => {
 // @access public
 router.get("/users/:id", (req, res) => {
   const id = req.params.id;
-  User.findOne({
+  db.user.findOne({
     where: {
       id: id
     }

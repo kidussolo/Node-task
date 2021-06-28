@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const Sequelize = require("sequelize");
+const {sequelize} = require("./models");
 const app = express();
 
 //body parser middleware
@@ -8,20 +8,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const users = require("./api/users");
-
-//db connection
-const sequelize = new Sequelize("test", "root", "root", {
-  host: "localhost",
-  dialect: "mysql",
-  operatorsAliases: false,
-
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-});
 
 //test db connection
 sequelize
