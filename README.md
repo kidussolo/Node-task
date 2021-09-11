@@ -1,5 +1,5 @@
 # Node-task
 
-### Use Postgres
-### migrate table to db
-### can use seeder to populate db with demo data
+### Use Postgres db
+### Migrate table to db
+### Can use seeder to populate db with demo data
